@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI winText;
     public int targetScore = 10;
+    public AudioSource audioSource;
+    public AudioClip collectSound;
+    public AudioClip win音效;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -56,6 +59,11 @@ public class PlayerController : MonoBehaviour
             score++;
             UpdateScoreUI();
             CheckWinCondition();
+            
+            if (audioSource != null && collectSound != null)
+            {
+                audioSource.PlayOneShot(collectSound);
+            }
 
             Debug.Log("Score: " + score);
 
@@ -72,6 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         if (score >= targetScore)
         {
+            audioSource.PlayOneShot(win音效);
             winText.gameObject.SetActive(true);
         }
     }
