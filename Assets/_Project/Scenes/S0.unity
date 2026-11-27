@@ -752,7 +752,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.8
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -861,7 +861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985bd660d094c7c46a06c375dc35c9de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioMgr
-  AudioSource: {fileID: 1765180527}
+  audioSource: {fileID: 0}
 --- !u!1 &1803216773
 GameObject:
   m_ObjectHideFlags: 0

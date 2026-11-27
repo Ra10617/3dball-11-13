@@ -3,7 +3,7 @@ using UnityEngine;
  
 public class AudioMgr : MonoBehaviour
 {
-    public AudioSource AudioSource;
+    public AudioSource audioSource;
  
     private void Awake()
     {
@@ -11,6 +11,7 @@ public class AudioMgr : MonoBehaviour
         if (GameDB.Audio == null)
         {
             GameDB.Audio = this;   //連動自己
+            audioSource = GetComponent<AudioSource>();  //自己抓AudioSource元件來用
             DontDestroyOnLoad(this.gameObject); //禁止銷毀
         }
         else  //否則表示 AudioMgr 已經存在
@@ -28,4 +29,15 @@ public class AudioMgr : MonoBehaviour
     {
          
     }
+ 
+    public void Play(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
+    }
+     
+    public void SetVolume(float volume)
+    {
+        audioSource.volume = volume;
+    }
+     
 }

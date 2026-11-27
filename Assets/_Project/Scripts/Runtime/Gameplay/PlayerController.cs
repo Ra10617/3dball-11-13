@@ -1,25 +1,29 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+ 
+ 
 public class PlayerController : MonoBehaviour
 {
     public float speed = 10f;
-
+ 
     private Rigidbody rb;
     private Vector2 moveInput;
     private InputAction moveAction;
     private int score = 0;
     public TextMeshProUGUI scoreText;
+ 
     public TextMeshProUGUI winText;
-    public int targetScore = 10;
-    public AudioSource audioSource;
-    public AudioClip collectSound;
-    public AudioClip win音效;
+    public int targetScore = 4;
+ 
+    public AudioClip 收集音效;
+    public AudioClip Win音效;
+    //public AudioSource  audioSource;
+ 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-
+ 
         moveAction = InputSystem.actions.FindAction("Move");
     }
     
@@ -27,61 +31,62 @@ public class PlayerController : MonoBehaviour
     {
         UpdateScoreUI();
         winText.gameObject.SetActive(false);
+ 
     }
-
+ 
     void OnEnable()
     {
         moveAction.Enable();
     }
-
+ 
     void OnDisable()
     {
         moveAction.Disable();
     }
-
+ 
     void Update()
     {
         moveInput = moveAction.ReadValue<Vector2>();
     }
-
+ 
     void FixedUpdate()
     {
-        Vector3 movement =
-            new Vector3(moveInput.x, 0f, moveInput.y);
-
+        Vector3 movement = new Vector3(moveInput.x, 0f, moveInput.y);
+ 
         rb.AddForce(movement * speed);
-    } 
-    
+    }
+     
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PickUp"))
         {
             score++;
+             
+            GameDB.Audio.Play(收集音效);
+            //audioSource.PlayOneShot(收集音效);
+ 
             UpdateScoreUI();
             CheckWinCondition();
-            
-            if (audioSource != null && collectSound != null)
-            {
-                audioSource.PlayOneShot(collectSound);
-            }
-
+ 
             Debug.Log("Score: " + score);
-
+ 
             other.gameObject.SetActive(false);
         }
     }
-    
+     
     private void UpdateScoreUI()
     {
         scoreText.text = "Score: " + score;
     }
-    
+     
     private void CheckWinCondition()
     {
         if (score >= targetScore)
         {
-            audioSource.PlayOneShot(win音效);
+            GameDB.Audio.Play(Win音效);
+            //audioSource.PlayOneShot(Win音效);
             winText.gameObject.SetActive(true);
         }
     }
+     
 }
